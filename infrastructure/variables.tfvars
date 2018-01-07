@@ -17,3 +17,12 @@ bastion_iam_role_config = {
 
 allowed_ip_ranges = "5.67.194.76/32"
 
+// Application variables
+application_instance_type = "t2.micro"
+application_ami = "ami-075eca7e"
+application_key_name = "application"
+application_iam_role_config = {
+  name                  = "application"
+  force_detach_policies = "false"
+  description           = "iam_role_for_application_ec2_instances"
+}

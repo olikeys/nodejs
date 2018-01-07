@@ -1,3 +1,4 @@
 .terraform
 .rspec
 terraform.tfstate*
+.DS_Store

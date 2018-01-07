@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 data "aws_availability_zones" "all" {}
-
+/*
 resource "aws_vpc" "management_vpc" {
     cidr_block              = "10.1.0.0/16"
     enable_dns_support      = true
@@ -13,7 +13,7 @@ resource "aws_vpc" "management_vpc" {
         Name = "managment-vpc"
     }
 }
-
+*/
 resource "aws_vpc" "application_vpc" {
     cidr_block              = "10.2.0.0/16"
     enable_dns_support      = true
@@ -23,7 +23,7 @@ resource "aws_vpc" "application_vpc" {
         Name = "application-vpc"
     }
 }
-
+/*
 resource "aws_internet_gateway" "management_internet_gateway" {
     vpc_id = "${aws_vpc.management_vpc.id}"
 
@@ -31,7 +31,7 @@ resource "aws_internet_gateway" "management_internet_gateway" {
         Name = "management-vpc-internet-gateway"
   }
 }
-
+*/
 resource "aws_internet_gateway" "application_internet_gateway" {
     vpc_id = "${aws_vpc.application_vpc.id}"
 
@@ -39,7 +39,7 @@ resource "aws_internet_gateway" "application_internet_gateway" {
         Name = "application-vpc-internet-gateway"
     }
 }
-
+/*
 resource "aws_subnet" "management_pub_subnet" {
     count               = "${length(data.aws_availability_zones.all.names)}"
     vpc_id              = "${aws_vpc.management_vpc.id}"
@@ -50,7 +50,7 @@ resource "aws_subnet" "management_pub_subnet" {
         Name = "man-pub-${data.aws_availability_zones.all.names[count.index]}"
     }
 }
-
+*/
 resource "aws_subnet" "application_pub_subnet" {
     count               = "${length(data.aws_availability_zones.all.names)}"
     vpc_id              = "${aws_vpc.application_vpc.id}"
@@ -72,7 +72,7 @@ resource "aws_subnet" "application_pvt_subnet" {
         Name = "app-pvt-${data.aws_availability_zones.all.names[count.index]}"
     }
 }
-
+/*
 resource "aws_route_table" "management_pub_route" {
     count   = "${length(data.aws_availability_zones.all.names)}"
     vpc_id  = "${aws_vpc.management_vpc.id}"
@@ -81,7 +81,7 @@ resource "aws_route_table" "management_pub_route" {
     Name = "management-public-subnets-route-table-${data.aws_availability_zones.all.names[count.index]}"
   }
 }
-
+*/
 resource "aws_route_table" "application_pub_route" {
     count   = "${length(data.aws_availability_zones.all.names)}"
     vpc_id  = "${aws_vpc.application_vpc.id}"
@@ -99,26 +99,26 @@ resource "aws_route_table" "application_pvt_route" {
         Name = "application-private-subnets-route-table-${data.aws_availability_zones.all.names[count.index]}"
     }
 }
-
+/*
 resource "aws_route_table_association" "management_public" {
     count          = "${length(data.aws_availability_zones.all.names)}"
     subnet_id      = "${element(aws_subnet.management_pub_subnet.*.id, count.index)}"
     route_table_id = "${element(aws_route_table.management_pub_route.*.id, count.index)}"
 }
-
+*/
 resource "aws_route_table_association" "application_public" {
     count          = "${length(data.aws_availability_zones.all.names)}"
     subnet_id      = "${element(aws_subnet.application_pub_subnet.*.id, count.index)}"
     route_table_id = "${element(aws_route_table.application_pub_route.*.id, count.index)}"
 }
-
+/*
 resource "aws_route" "man_public_internet_gateway" {
     count                  = "${length(data.aws_availability_zones.all.names)}"      
     route_table_id         = "${element(aws_route_table.management_pub_route.*.id, count.index)}"
     destination_cidr_block = "0.0.0.0/0"
     gateway_id             = "${aws_internet_gateway.management_internet_gateway.id}"
 }
-
+*/
 resource "aws_route" "app_public_internet_gateway" {
     count                  = "${length(data.aws_availability_zones.all.names)}"      
     route_table_id         = "${element(aws_route_table.application_pub_route.*.id, count.index)}"
@@ -145,7 +145,7 @@ resource "aws_route" "app_nat_route" {
     destination_cidr_block = "0.0.0.0/0"
     nat_gateway_id         = "${element(aws_nat_gateway.app_nat_gateway.*.id, count.index)}"
 }
-
+/*
 resource "aws_vpc_peering_connection" "man_to_app_peering" {
     peer_vpc_id   = "${aws_vpc.application_vpc.id}"
     vpc_id        = "${aws_vpc.management_vpc.id}"
@@ -162,3 +162,4 @@ resource "aws_route" "application_vpc_peering_route" {
   destination_cidr_block    = "10.2.0.0/16" 
   vpc_peering_connection_id = "${aws_vpc_peering_connection.man_to_app_peering.id}" 
 }
+*/

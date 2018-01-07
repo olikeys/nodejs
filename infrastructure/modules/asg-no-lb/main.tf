@@ -8,7 +8,6 @@ resource "aws_autoscaling_group" "default_asg" {
   health_check_type    = "${var.healthcheck}"
   enabled_metrics      = ["GroupInServiceInstances", "GroupTerminatingInstances"]
   
-
   tag {
     key                 = "Name"
     value               = "${var.tag_name}"

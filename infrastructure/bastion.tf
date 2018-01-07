@@ -2,13 +2,13 @@ module "bastion_asg" {
     source              = "./modules/asg-no-lb"
     //ASG variables
     asg_name            = "bastion-autoscaling-group" 
-    subnet_ids          = ["${aws_subnet.management_pub_subnet.*.id}"]
+    subnet_ids          = ["${aws_subnet.application_pub_subnet.*.id}"]
     availability_zones  = ["${data.aws_availability_zones.all.names}"]
     min_size            = 3
     max_size            = 3
     tag_name            = "bastion-instance"
     tag_description     = "Bastion instance for ssh access to application instances"
-    vpc_id              = "${aws_vpc.management_vpc.id}"
+    vpc_id              = "${aws_vpc.application_vpc.id}"
     lc_sec_group        = ["${aws_security_group.bastion_security_group.id}"]
     lc_key_name         = "${var.bastion_key_name}"
     lc_iam_profile      = "${module.bastion_iam_role.iam_instance_profile}"
@@ -28,7 +28,7 @@ module "bastion_iam_role" {
 resource "aws_security_group" "bastion_security_group" {
   name        = "bastion-sg"
   description = "bastion security group"
-  vpc_id      = "${aws_vpc.management_vpc.id}"
+  vpc_id      = "${aws_vpc.application_vpc.id}"
 
 /*
   lifecycle {

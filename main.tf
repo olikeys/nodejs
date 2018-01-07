@@ -145,3 +145,20 @@ resource "aws_route" "app_nat_route" {
     destination_cidr_block = "0.0.0.0/0"
     nat_gateway_id         = "${element(aws_nat_gateway.app_nat_gateway.*.id, count.index)}"
 }
+
+resource "aws_vpc_peering_connection" "man_to_app_peering" {
+    peer_vpc_id   = "${aws_vpc.application_vpc.id}"
+    vpc_id        = "${aws_vpc.management_vpc.id}"
+    auto_accept   = true
+
+    tags {
+        Name = "VPC Peering connection between Management and Application VPCs"
+    }
+}
+
+resource "aws_route" "application_vpc_peering_route" {
+  count                     = "${length(data.aws_availability_zones.all.names)}"
+  route_table_id            = "${element(aws_route_table.management_pub_route.*.id, count.index)}"
+  destination_cidr_block    = "10.2.0.0/16" 
+  vpc_peering_connection_id = "${aws_vpc_peering_connection.man_to_app_peering.id}" 
+}

@@ -35,4 +35,8 @@ variable "tag_description" {}
 variable alb_name {}
 variable load_balancer_http_port {}
 
-variable bastion_sg {}
+variable bastion_sg {
+    type = "list"
+}
+variable alb_sg_name {}
+

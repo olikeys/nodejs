@@ -30,12 +30,6 @@ resource "aws_security_group" "bastion_security_group" {
   description = "bastion security group"
   vpc_id      = "${aws_vpc.application_vpc.id}"
 
-/*
-  lifecycle {
-    ignore_changes = ["ingress"] #to prevent rebuild when we manually add our home's public IP
-  }
-*/
-
   ingress {
     from_port   = 22
     to_port     = 22

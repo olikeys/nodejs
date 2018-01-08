@@ -2,3 +2,4 @@
 .rspec
 terraform.tfstate*
 .DS_Store
+keys/*

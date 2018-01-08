@@ -49,7 +49,7 @@ resource "aws_launch_configuration" "default_launch_configuration" {
 }
 
 resource "aws_security_group" "default_load_balancer_sg" {
-     name = "${var.environment}-application-load-balancer-security-group"
+     name = "${var.alb_sg_name}"
      description = "Allow access to application load balancer"
      vpc_id = "${var.vpc_id}"
 
@@ -58,7 +58,7 @@ resource "aws_security_group" "default_load_balancer_sg" {
         to_port     = "${var.load_balancer_http_port}"
         protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
-        security_groups = ["${{var.bastion_sg}"]
+        security_groups = ["${var.bastion_sg}"]
      }
 
      egress {
@@ -82,7 +82,7 @@ resource "aws_alb_listener" "default_load_balancer_listener" {
     protocol            = "HTTP"
     
     default_action {
-       target_group_arn = "${aws_alb_target_group.default_alg_tg.arn}"
+       target_group_arn = "${aws_alb_target_group.default_alb_tg.arn}"
        type             = "forward"
     }
 }

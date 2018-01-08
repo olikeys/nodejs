@@ -19,6 +19,12 @@ module "application_asg" {
     lc_it               = "${var.application_instance_type}"
     lc_image_id         = "${var.application_ami}"
     lc_name_prefix      = "application-launch-config-"
+
+    //ALB Variables
+    alb_name                = "application-alb"
+    load_balancer_http_port = "80"
+    alb_sg_name             = "application-alb-sg"
+    bastion_sg              =  ["${aws_security_group.bastion_security_group.id}"]
 }
 
 resource "aws_key_pair" "application" {

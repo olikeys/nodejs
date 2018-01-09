@@ -1,0 +1,65 @@
+---
+# defaults file for nodejs
+- hosts: tag_Name_application_instance
+  remote_user: ubuntu
+  become: yes
+  gather_facts: False
+  vars:
+    - homeDir: /home/ubuntu
+    - appDir : app
+    - repo: hello_world_app
+    - account: olikeys
+
+  tasks:
+    - name: install python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    - name: Install Packages
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - npm
+        - nodejs-legacy
+        - git
+        - nginx
+  
+    - name: Install express
+      npm: name=express global=yes production=yes
+    - name: Install pm2
+      npm: name=pm2 global=yes production=yes
+
+    - name: Git Clone Repo
+      git: repo=https://github.com/{{account}}/{{repo}}.git dest={{homeDir}}/{{appDir}} update=yes
+      register: git_finished
+
+    - name: Running NPM install
+      npm: path={{homeDir}}/{{appDir}}
+      when: git_finished.changed
+      register: npm_finished
+  
+    - name: Add default config template to the Nginx available sites
+      template:
+        src: templates/default
+        dest: "/etc/nginx/sites-available/default"
+      notify: Restart Nginx
+
+    - name: Enable default config template from Nginx available sites
+      file:
+        src: "/etc/nginx/sites-available/default"
+        dest: "/etc/nginx/sites-enabled/default"
+        state: link
+      notify: Restart Nginx
+
+    - name: Stop APP
+      command: pm2 stop server.js chdir={{homeDir}}/{{appDir}}
+      ignore_errors: yes
+      
+
+    - name: Start APP
+      command: pm2 start server.js chdir={{homeDir}}/{{appDir}}
+      ignore_errors: yes
+      
+  handlers:
+    - name: Restart Nginx
+      become: true
+      service:
+        name: nginx
+        state: restarted

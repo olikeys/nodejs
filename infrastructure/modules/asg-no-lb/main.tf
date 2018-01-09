@@ -1,6 +1,5 @@
 resource "aws_autoscaling_group" "default_asg" {
   name                 = "${var.asg_name}"
-  availability_zones   = ["${var.availability_zones}"]
   max_size             = "${var.max_size}"
   min_size             = "${var.max_size}"
   vpc_zone_identifier  = ["${var.subnet_ids}"]

@@ -1,0 +1,10 @@
+---
+- hosts: tag_Name_application_instance
+  remote_user: ubuntu
+  become: yes
+  gather_facts: False
+  tasks:
+    
+    - name: test connection
+      ping:
+      remote_user: ubuntu

@@ -2,10 +2,6 @@ variable "subnet_ids" {
   type = "list"
 }
 
-variable "availability_zones" {
-    type = "list"
-}
-
 variable "vpc_id" {}
 variable "asg_name" {}
 variable "alb_tg_name" {}
@@ -29,6 +25,7 @@ variable "max_size" {
     default = 3
 }
 
+variable "associate_pub_ip" {}
 variable "tag_name" {}
 variable "tag_description" {}
 
@@ -39,4 +36,6 @@ variable bastion_sg {
     type = "list"
 }
 variable alb_sg_name {}
+
+variable alb_internal {}
 

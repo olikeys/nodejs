@@ -1,6 +1,5 @@
 resource "aws_autoscaling_group" "default_asg" {
   name                 = "${var.asg_name}"
-  availability_zones   = ["${var.availability_zones}"]
   max_size             = "${var.max_size}"
   min_size             = "${var.max_size}"
   vpc_zone_identifier  = ["${var.subnet_ids}"]
@@ -25,23 +24,24 @@ resource "aws_autoscaling_group" "default_asg" {
 resource "aws_alb_target_group" "default_alb_tg" {
     name                = "${var.alb_tg_name}"
     port                = "${var.alb_https_port}"
-    protocol            = "HTTPS"
+    protocol            = "HTTP"
     vpc_id              = "${var.vpc_id}"
     health_check {
-       path             = "/info/health" //this might need to be a variable at some point
-       protocol         = "HTTPS"        //and this
+       path             = "/elb-status" //this might need to be a variable at some point
+       protocol         = "HTTP"        //and this
        matcher          = "200"          //and this too
     }
 
 }
 
 resource "aws_launch_configuration" "default_launch_configuration" {
-  name_prefix           = "${var.lc_name_prefix}"
-  image_id              = "${var.lc_image_id}"
-  instance_type         = "${var.lc_it}"
-  iam_instance_profile  = "${var.lc_iam_profile}"
-  key_name              = "${var.lc_key_name}"
-  security_groups       = ["${var.lc_sec_group}"]
+  name_prefix                   = "${var.lc_name_prefix}"
+  image_id                      = "${var.lc_image_id}"
+  instance_type                 = "${var.lc_it}"
+  iam_instance_profile          = "${var.lc_iam_profile}"
+  key_name                      = "${var.lc_key_name}"
+  security_groups               = ["${var.lc_sec_group}"]
+  associate_public_ip_address   = "${var.associate_pub_ip}"
 
   lifecycle {
     create_before_destroy = true
@@ -71,7 +71,7 @@ resource "aws_security_group" "default_load_balancer_sg" {
 
 resource "aws_alb" "default_alb" {
     name                = "${var.alb_name}"
-    internal            = true
+    internal            = "${var.alb_internal}"
     security_groups     = ["${aws_security_group.default_load_balancer_sg.id}"]
     subnets             = ["${var.subnet_ids}"]
 }

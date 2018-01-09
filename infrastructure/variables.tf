@@ -30,7 +30,7 @@ variable "application_iam_role_config" {
     type = "map"
 }
 variable "application_port" {
-    default = "8080"
+    default = "80"
 }
 
 

@@ -2,8 +2,7 @@ module "bastion_asg" {
     source              = "./modules/asg-no-lb"
     //ASG variables
     asg_name            = "bastion-autoscaling-group" 
-    subnet_ids          = ["${aws_subnet.application_pub_subnet.*.id}"]
-    availability_zones  = ["${data.aws_availability_zones.all.names}"]
+    subnet_ids          = ["${aws_subnet.management_pub_subnet.*.id}"]
     min_size            = 3
     max_size            = 3
     tag_name            = "bastion-instance"

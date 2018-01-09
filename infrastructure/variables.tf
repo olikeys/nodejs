@@ -33,4 +33,7 @@ variable "application_port" {
     default = "80"
 }
 
+variable "awsakey" {}
+variable "awssecret" {}
+
 

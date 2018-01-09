@@ -88,8 +88,7 @@ resource "aws_route" "app_public_internet_gateway" {
     gateway_id             = "${aws_internet_gateway.application_internet_gateway.id}"
 }
 
-/*
 resource "aws_route53_zone" "primary" {
-  name = "cni-techtest-ok.com"
+  name = "cni-techtest-ok.com."
 }
-*/
+

@@ -22,8 +22,8 @@ runcmd:
   - sudo apt install python -y
   - sudo apt install python-pip -y
   - sudo pip install awscli
-  - export AWS_ACCESS_KEY_ID=****
-  - export AWS_SECRET_ACCESS_KEY=****
+  - export AWS_ACCESS_KEY_ID="${var.awsakey}"
+  - export AWS_SECRET_ACCESS_KEY="${var.awssecret}"
   - aws ec2 associate-address --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.bastion.id} --allow-reassociation --region eu-west-1
 EOF
 }
@@ -68,3 +68,10 @@ resource "aws_eip" "bastion" {
   vpc = true
 }
 
+resource "aws_route53_record" "bastion" {
+  zone_id = "${aws_route53_zone.primary.zone_id}"
+  name    = "bastion"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_eip.bastion.public_ip}"]
+}

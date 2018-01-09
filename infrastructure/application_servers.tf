@@ -82,3 +82,18 @@ resource "aws_security_group" "application_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+
+
+resource "aws_route53_record" "www" {
+  zone_id = "${aws_route53_zone.primary.zone_id}"
+  name    = "cni-techtest-ok.com"
+  type    = "A"
+  
+  alias {
+    name                   = "dualstack.${module.application_asg.alb_dnsname}"
+    zone_id                = "${module.application_asg.alb_zoneid}"
+    evaluate_target_health = true
+  }
+}
+ 

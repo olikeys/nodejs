@@ -1,0 +1,15 @@
+---
+driver:
+  name: ec2
+
+provisioner:
+  name: ansible
+
+platforms:
+  - name: ubuntu-14.04
+  - name: centos-7.2
+
+suites:
+  - name: default
+    run_list:
+    attributes:

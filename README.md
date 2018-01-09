@@ -12,7 +12,7 @@
     - create 2 rsa keys named application and bastion server under projectdir/infrastructure/keys
     - add the newly created keys to the key manager
     - add the following to your ~/.ssh/config
-    ```
+```
         Host 10.2.*.*
         ProxyCommand ssh -W %h:%p bastion
         User ubuntu

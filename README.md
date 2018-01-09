@@ -22,7 +22,6 @@
         User ubuntu
         ForwardAgent yes
 ```
-    - 
 
 # Configuration instructions
     - create secrets.tfvars under projectdir/infrastructure with the following variables

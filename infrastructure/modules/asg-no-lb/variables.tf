@@ -23,7 +23,7 @@ variable "min_size" {
 variable "max_size" {
     default = 3
 }
-
+variable "is_user_data" {}
 variable "tag_name" {}
 variable "tag_description" {}
 

@@ -3,8 +3,8 @@ module "bastion_asg" {
     //ASG variables
     asg_name            = "bastion-autoscaling-group" 
     subnet_ids          = ["${aws_subnet.management_pub_subnet.*.id}"]
-    min_size            = 3
-    max_size            = 3
+    min_size            = 1
+    max_size            = 1
     tag_name            = "bastion-instance"
     tag_description     = "Bastion instance for ssh access to application instances"
     vpc_id              = "${aws_vpc.application_vpc.id}"
@@ -15,6 +15,17 @@ module "bastion_asg" {
     lc_image_id         = "${var.bastion_ami}"
     lc_name_prefix      = "bastion-launch-config-"
     associate_pub_ip    = true
+    is_user_data        = <<EOF
+#cloud-config
+runcmd:
+  - sudo apt update -y
+  - sudo apt install python -y
+  - sudo apt install python-pip -y
+  - sudo pip install awscli
+  - export AWS_ACCESS_KEY_ID=****
+  - export AWS_SECRET_ACCESS_KEY=****
+  - aws ec2 associate-address --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.bastion.id} --allow-reassociation --region eu-west-1
+EOF
 }
 
 module "bastion_iam_role" {
@@ -52,3 +63,8 @@ resource "aws_security_group" "bastion_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_eip" "bastion" {
+  vpc = true
+}
+

@@ -28,6 +28,7 @@ resource "aws_launch_configuration" "default_launch_configuration" {
   key_name                      = "${var.lc_key_name}"
   security_groups               = ["${var.lc_sec_group}"]
   associate_public_ip_address   = "${var.associate_pub_ip}"
+  user_data            = "${var.is_user_data}"
 
   lifecycle {
     create_before_destroy = true

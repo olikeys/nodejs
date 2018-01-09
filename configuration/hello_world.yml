@@ -52,10 +52,8 @@
       command: pm2 stop server.js chdir={{homeDir}}/{{appDir}}
       ignore_errors: yes
       
-
     - name: Start APP
       command: pm2 start server.js chdir={{homeDir}}/{{appDir}}
-      ignore_errors: yes
       
   handlers:
     - name: Restart Nginx

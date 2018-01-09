@@ -3,7 +3,7 @@
     - AWS
     - Terraform (v0.11.1)
     - Ansible
-    - boto 2
+    - aws spec
     
 
 # Install instructions

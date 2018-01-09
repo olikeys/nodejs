@@ -26,3 +26,5 @@ application_iam_role_config = {
   force_detach_policies = "false"
   description           = "iam_role_for_application_ec2_instances"
 }
+
+r53_zoneid = "Z278TU4O8BC3E6"

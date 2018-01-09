@@ -1,0 +1,13 @@
+---
+# defaults file for nodejs
+- hosts: tag_Name_application_instance
+  remote_user: ubuntu
+  become: yes
+  gather_facts: False
+
+  tasks:
+    - action: uri url=http://cni-techtest-ok.com return_content=yes
+      register: webpage
+      
+    - fail: msg='service is not happy'
+      when: "'Hello World' not in webpage.content"

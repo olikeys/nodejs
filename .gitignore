@@ -2,5 +2,6 @@
 .rspec
 terraform.tfstate*
 .DS_Store
-keys/*
+infrastructure/keys*
 *.retry
+secrets.tfvars

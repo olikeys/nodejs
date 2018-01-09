@@ -87,8 +87,3 @@ resource "aws_route" "app_public_internet_gateway" {
     destination_cidr_block = "0.0.0.0/0"
     gateway_id             = "${aws_internet_gateway.application_internet_gateway.id}"
 }
-
-resource "aws_route53_zone" "primary" {
-  name = "cni-techtest-ok.com."
-}
-

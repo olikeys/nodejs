@@ -15,7 +15,6 @@ bastion_iam_role_config = {
   description           = "iam_role_for_bastion_ec2_instances"
 }
 
-allowed_ip_ranges = "5.67.194.76/32"
 
 // Application variables
 application_instance_type = "t2.micro"
@@ -28,3 +27,5 @@ application_iam_role_config = {
 }
 
 r53_zoneid = "Z278TU4O8BC3E6"
+r53_name  = "cni-techtest-ok.com."
+allowed_ip_ranges = "5.67.194.76/32"

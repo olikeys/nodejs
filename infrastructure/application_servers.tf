@@ -87,7 +87,7 @@ resource "aws_security_group" "application_security_group" {
 
 resource "aws_route53_record" "www" {
   zone_id = "${var.r53_zoneid}"
-  name    = "cni-techtest-ok.com"
+  name    = "${var.r53_name}"
   type    = "A"
   
   alias {

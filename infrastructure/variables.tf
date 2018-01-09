@@ -36,5 +36,6 @@ variable "application_port" {
 variable "awsakey" {}
 variable "awssecret" {}
 variable "r53_zoneid" {}
+varibale "r53_name" {}
 
 

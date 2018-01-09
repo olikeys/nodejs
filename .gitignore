@@ -5,3 +5,4 @@ terraform.tfstate*
 infrastructure/keys*
 *.retry
 secrets.tfvars
+.DS_Store

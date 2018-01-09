@@ -28,6 +28,11 @@ runcmd:
 EOF
 }
 
+resource "aws_key_pair" "bastion" {
+  key_name   = "bastion"
+  public_key = "${file("${path.root}/keys/bastion.pub")}"
+}
+
 module "bastion_iam_role" {
   source             = "./modules/iam_role"
   config             = "${var.bastion_iam_role_config}"
@@ -69,7 +74,7 @@ resource "aws_eip" "bastion" {
 }
 
 resource "aws_route53_record" "bastion" {
-  zone_id = "${aws_route53_zone.primary.zone_id}"
+  zone_id = "${var.r53_zoneid}"
   name    = "bastion"
   type    = "A"
   ttl     = "300"

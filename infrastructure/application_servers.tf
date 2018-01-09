@@ -86,7 +86,7 @@ resource "aws_security_group" "application_security_group" {
 
 
 resource "aws_route53_record" "www" {
-  zone_id = "${aws_route53_zone.primary.zone_id}"
+  zone_id = "${var.r53_zoneid}"
   name    = "cni-techtest-ok.com"
   type    = "A"
   
@@ -96,4 +96,3 @@ resource "aws_route53_record" "www" {
     evaluate_target_health = true
   }
 }
- 

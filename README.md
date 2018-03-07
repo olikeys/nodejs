@@ -1,4 +1,3 @@
-# cni-techtest
 # Built using 
     - AWS
     - Terraform
